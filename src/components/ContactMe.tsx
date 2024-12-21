@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import { Send, User, Mail, MessageCircle } from 'lucide-react';
-import toast, { Toaster } from 'react-hot-toast';
-
-const gradientBackgrounds = [
-  "from-[#2C3E50] to-[#3498DB]",
-  "from-[#4A148C] to-[#FF6F00]",
-  "from-[#1A2980] to-[#26D07C]",
-  "from-[#0F2027] to-[#203A43]",
-  "from-[#16222A] to-[#3A6073]",
-];
+import { Send, User, Mail, MessageCircle, Loader2 } from 'lucide-react';
+import { Toaster, toast } from 'react-hot-toast'; // Change import to react-hot-toast
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Button } from "../components/ui/button";
+import { Label } from "../components/ui/label";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
@@ -46,148 +43,140 @@ const Contact = () => {
         },
         VITE_APP_EMAILJS_PUBLIC_KEY
       );
-      
-      toast.success('Message sent successfully! 🎉', {
-        duration: 4000,
-        position: 'top-right',
-      });
-      
+
+      toast.success('Message sent successfully! 🎉');
       setForm({ name: '', email: '', message: '' });
     } catch (error) {
-      toast.error("Couldn't send message. Please try again.", {
-        duration: 4000,
-        position: 'top-right',
-      });
+      toast.error("Couldn't send message. Please try again.");
       console.error('Failed to send message:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  };
+
   return (
-    <div className="py-16 px-4 bg-gradient-to-br from-[#8d4cc799] via-[#1b018d] to-[#6e0bd0]  min-h-screen">
-        <div className="max-w-5xl mx-auto py-16 px-6 ">
-        <motion.h1
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-[#4A90E2] to-[#6A11CB] "
-        >
+    <div className="relative py-16 px-4">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-3xl mx-auto space-y-8"
+      >
+        <motion.div variants={itemVariants} className="text-center space-y-4">
+          <h2 className="text-4xl font-bold text-blue-400">
             Get In Touch
-        </motion.h1>
-
-        <Toaster />
-
-        <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{
-            type: "spring",
-            stiffness: 100
-            }}
-            className={`
-            bg-gradient-to-br ${gradientBackgrounds[0]}
-            rounded-2xl p-7 shadow-2xl border-2 border-opacity-20 border-white
-            transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl
-            `}
-        >
-            <div className="flex items-center mb-5">
-            <Send className="text-white mr-4" size={32} strokeWidth={2} />
-            <div>
-                <h2 className="text-3xl font-bold text-white drop-shadow-md">
-                Contact Form
-                </h2>
-                <h3 className="text-xl text-gray-200 opacity-90">
-                Share Your Thoughts
-                </h3>
-            </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-            <motion.label 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 }}
-                className="block"
-            >
-                <span className="block text-sm font-medium text-white/80 flex items-center gap-2">
-                <User className="w-4 h-4 text-[#4A90E2]" /> Full Name
-                </span>
-                <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2] transition-all"
-                placeholder="Ex: Vasinin Singh"
-                />
-            </motion.label>
-
-            <motion.label 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="block"
-            >
-                <span className="block text-sm font-medium text-white/80 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#4A90E2]" /> Email address
-                </span>
-                <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2] transition-all"
-                placeholder="Ex: vasinisingh01@gmail.com"
-                />
-            </motion.label>
-
-            <motion.label 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-                className="block"
-            >
-                <span className="block text-sm font-medium text-white/80 flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-[#4A90E2]" /> Your message
-                </span>
-                <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="mt-1 block w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2] transition-all"
-                placeholder="Write your thoughts here..."
-                />
-            </motion.label>
-
-            <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                disabled={loading}
-                className={`
-                w-full py-3 rounded-md 
-                bg-[#4A90E2] text-white font-medium 
-                flex items-center justify-center gap-2 
-                ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#6A11CB]'} 
-                transition-all
-                `}
-            >
-                {loading ? (
-                <span>Sending...</span>
-                ) : (
-                <>
-                    <Send className="w-5 h-5" />
-                    Send Message
-                </>
-                )}
-            </motion.button>
-            </form>
+          </h2>
+          <p className="text-gray-400">
+            Have a question or want to collaborate? Drop me a message!
+          </p>
         </motion.div>
-        </div>
+
+        <Card className="bg-gray-900/50 backdrop-blur-xl border-gray-800">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-blue-400">
+              <Send className="w-6 h-6" />
+              Contact Form
+            </CardTitle>
+            <CardDescription className="text-gray-400">
+              Share your thoughts and ideas with me
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <motion.div variants={itemVariants} className="space-y-2">
+                <Label className="text-gray-300 flex items-center gap-2">
+                  <User className="w-4 h-4" /> Full Name
+                </Label>
+                <Input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="Ex: Vasini Singh"
+                  className="bg-gray-800/50 border-gray-700 text-gray-200 placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500"
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-2">
+                <Label className="text-gray-300 flex items-center gap-2">
+                  <Mail className="w-4 h-4" /> Email Address
+                </Label>
+                <Input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Ex: vasinisingh01@gmail.com"
+                  className="bg-gray-800/50 border-gray-700 text-gray-200 placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500"
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-2">
+                <Label className="text-gray-300 flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4" /> Your Message
+                </Label>
+                <Textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={5}
+                  placeholder="Write your thoughts here..."
+                  className="bg-gray-800/50 border-gray-700 text-gray-200 placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500"
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants}>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-gray-900 to-blue-900 text-white hover:from-gray-800 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-700"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </motion.div>
+            </form>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      <Toaster />
     </div>
   );
 };

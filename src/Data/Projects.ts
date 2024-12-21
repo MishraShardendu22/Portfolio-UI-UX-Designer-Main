@@ -18,7 +18,7 @@ const Projects = [
         ]
     },
     {
-        title: "RFP Design for [Client Name]",
+        title: "RFP Design",
         description: [
             "Designed a comprehensive RFP for a major client, ensuring all requirements were met and the design was visually appealing and functional.",
             "Collaborated with the client to iterate on designs based on feedback, resulting in a successful proposal."
