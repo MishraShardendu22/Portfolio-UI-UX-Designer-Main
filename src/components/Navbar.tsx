@@ -64,7 +64,7 @@ const Navbar = () => {
                 <SheetContent side="right">
                   <nav className="flex flex-col space-y-4 mt-8">
                     <motion.a
-                      href="/about-me"
+                      href="/aboutme"
                       className="text-gray-200 hover:text-teal-400 transition-colors duration-300 font-medium"
                       whileHover={{ x: 5 }}
                     >
