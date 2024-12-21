@@ -45,7 +45,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <motion.a 
-                href="/about-me"
+                href="/aboutme"
                 whileHover={{ scale: 1.05 }}
                 className="text-gray-200 hover:text-teal-400 transition-colors duration-300 font-medium"
               >
